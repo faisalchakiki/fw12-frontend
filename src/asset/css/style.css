@@ -39,3 +39,7 @@ code {
 .main button:hover {
   background-color: aquamarine;
 }
+
+.scrollbar::-webkit-scrollbar{
+  display: none;
+}
