@@ -9,7 +9,7 @@ import Instagram from "../asset/logo/instagram.svg";
 import Twiter from "../asset/logo/twiter.svg";
 import Youtube from "../asset/logo/youtube.svg";
 
-const Footer = () => {
+const FooterPublic = () => {
   return (
     <footer className="px-[50px] lg:px-[120px] pt-3 border-t-2">
       <div className="top lg:flex justify-between">
@@ -95,4 +95,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default FooterPublic;

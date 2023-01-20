@@ -1,12 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const BtnDetails = (props) => {
+  // console.log(props)
   return (
-    <button
-      className={`w-full text-[#5f2eea] h-[35px] border-[2px] border-[#5f2eea] font-bold text-center cursor-pointer rounded-[4px] hover:bg-[#5f2eea] hover:text-white ${props.class}`}
-    >
-      {props.value}
-    </button>
+    <Link to={`${props.path}/${props.idMovie}`} className="w-full">
+      <button
+        className={`btn btn-md w-full text-[#fca311] border-[2px] border-[#fca311] font-bold text-center cursor-pointer rounded-[4px] hover:bg-[#fca311] hover:text-white ${props.class}`}
+      >
+        {props.value}
+      </button>
+    </Link>
   );
 };
 
