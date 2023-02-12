@@ -14,11 +14,10 @@ import Booking from "./Booking";
 import History from "./History";
 import Payment from "./Payment";
 import Profile from "./Profile";
-import TicketUsed from "./TicketUsed";
-import TicketExp from "./TicketExp";
-import TicketActive from "./TicketActive";
+import Ticket from "./Ticket";
 
 import PrivateRoute from "../component/PrivateRoute";
+import PrivateTrans from "../component/PrivateTransaction";
 
 function Main() {
   return (
@@ -44,7 +43,9 @@ function Main() {
           path="/booking"
           element={
             <PrivateRoute>
-              <Booking />
+              <PrivateTrans>
+                <Booking />
+              </PrivateTrans>
             </PrivateRoute>
           }
         />
@@ -60,7 +61,9 @@ function Main() {
           path="/payment"
           element={
             <PrivateRoute>
-              <Payment />
+              <PrivateTrans>
+                <Payment />
+              </PrivateTrans>
             </PrivateRoute>
           }
         />
@@ -73,29 +76,14 @@ function Main() {
           }
         />
         <Route
-          path="/used"
+          path="/ticket"
           element={
             <PrivateRoute>
-              <TicketUsed />
+              <Ticket />
             </PrivateRoute>
           }
         />
-        <Route
-          path="/active"
-          element={
-            <PrivateRoute>
-              <TicketActive />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/expired"
-          element={
-            <PrivateRoute>
-              <TicketExp />
-            </PrivateRoute>
-          }
-        />
+
       </Routes>
     </BrowserRouter>
   );

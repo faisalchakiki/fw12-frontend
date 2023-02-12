@@ -4,8 +4,37 @@ import Footer from "../collection/Footer";
 import NavUser from "../collection/NavUser";
 import Button from "../collection/Button";
 import Ebu from "../asset/logo/ebu.svg";
+import http from "../helper/http";
+import { useDispatch, useSelector } from "react-redux";
+import { chooseSeats } from "../redux/reducers/transaction";
 
 const Booking = () => {
+  const infoBooking = useSelector((state) => state.transaction);
+  const dispatch = useDispatch();
+  const [details, setDetails] = React.useState([]);
+  const [selected, setSelected] = React.useState([]);
+  const [price, setPrice] = React.useState(
+    Number(infoBooking.price) * selected.length
+  );
+  console.log(selected);
+  React.useEffect(() => {
+    getDetails();
+  }, [setSelected, selected, price, setPrice]);
+  const getDetails = async () => {
+    const { data: result } = await http().get(
+      "http://localhost:8888/movies/" + infoBooking.idMovie
+    );
+    return setDetails(result.data[0]);
+  };
+  const seatSelected = (value) => {
+    if (selected.includes(value)) {
+      setSelected(selected.filter((_values) => _values !== value));
+      return dispatch(chooseSeats(selected));
+    } else {
+      setSelected([...selected, value]);
+      return dispatch(chooseSeats(selected));
+    }
+  };
   return (
     <>
       <NavUser />
@@ -16,10 +45,8 @@ const Booking = () => {
               Movie Selected
             </h3>
             <div className="bg-white rounded-[5px] mb-[20px] py-[15px] px-4 flex justify-between items-center">
-              <h1 className="text-[2vw] font-semibold">
-                Spider-man: Homecoming
-              </h1>
-              <Link to="/listMovieMain" className="w-[30%]">
+              <h1 className="text-[2vw] font-semibold">{details?.title}</h1>
+              <Link to="/listMovie" className="w-[30%]">
                 <button className="w-full bg-[#eff0f7] text-[#fca311] h-[35px] font-bold text-center cursor-pointer rounded-[4px] hover:bg-[#fca311] hover:text-white">
                   Change movie
                 </button>
@@ -34,173 +61,75 @@ const Booking = () => {
               <main className="w-[70%] text-center">
                 <p>Screen</p>
                 <hr className="h-[5px] bg-[#eaeaea] rounded-[15px] mb-[20px]" />
-                <div className="grid grid-cols-2 gap-5">
-                  <div className="grid grid-cols-8 gap-1">
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      A
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      B
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      C
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      D
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] cursor-pointer flex items-center justify-center bg-[#4e4b66] sold"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] cursor-pointer flex items-center justify-center bg-[#4e4b66] sold"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] cursor-pointer flex items-center justify-center bg-[#4e4b66] sold"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      E
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      F
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center selected"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center selected"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      G
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      1
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      2
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      3
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      4
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      5
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      6
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      7
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-7 gap-1">
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] cursor-pointer flex items-center justify-center bg-[#fca311] selected"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] cursor-pointer flex items-center justify-center bg-[#fca311] selected"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] cursor-pointer flex items-center justify-center bg-[#4e4b66] sold"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] cursor-pointer flex items-center justify-center bg-[#4e4b66] sold"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] cursor-pointer flex items-center justify-center"></span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      8
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      9
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      10
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      11
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      12
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      13
-                    </span>
-                    <span className="w-[25px] h-[25px] rounded-[5px] bg-[#d6d8e7] text-[#4e4b66] font-semibold flex items-center justify-center bg-transparent nav-seat">
-                      14
-                    </span>
-                  </div>
+                <div className="text-center mx-auto flex flex-col justify-center items-center">
+                  {["A", "B", "C", "D", "E", "F", "G", " "].map((value) => {
+                    return (
+                      <div className="grid grid-cols-2 w-[100%]">
+                        <div className="grid grid-cols-8 w-[90%]">
+                          {[...Array(8)].map((_v, i) => {
+                            if (i > 0) {
+                              if (value !== " ") {
+                                return (
+                                  <p
+                                    key={i}
+                                    onClick={() => {
+                                      seatSelected(value + i);
+                                    }}
+                                    className={`grid gap-1 border rounded-[8px] text-center w-[25px] h-[25px] m-[1px] cursor-pointer ${
+                                      selected.includes(value + i)
+                                        ? "bg-[#fca311]"
+                                        : "bg-[#d6d8e7]"
+                                    }`}
+                                  >
+                                    {/* {value}{i} */}
+                                  </p>
+                                );
+                              } else {
+                                return (
+                                  <div className="text-center w-[25px]">
+                                    {i}
+                                  </div>
+                                );
+                              }
+                            } else {
+                              return (
+                                <div className="text-center mr-[10%]">
+                                  {value}
+                                </div>
+                              );
+                            }
+                          })}
+                        </div>
+                        <div className="grid grid-cols-8 w-[90%] ml-auto">
+                          {[...Array(7)].map((_v, i) => {
+                            if (value !== " ") {
+                              return (
+                                <p
+                                  key={i + 8}
+                                  onClick={() => {
+                                    seatSelected(value + (i + 8));
+                                  }}
+                                  className={`grid gap-1 border rounded-[8px] text-center w-[25px] h-[25px] m-[1px] cursor-pointer ${
+                                    selected.includes(value + (i + 8))
+                                      ? "bg-[#fca311]"
+                                      : "bg-[#d6d8e7]"
+                                  }`}
+                                >
+                                  {/* {value}{i+8} */}
+                                </p>
+                              );
+                            } else {
+                              return (
+                                <div className="text-center w-[25px]">
+                                  {i + 8}
+                                </div>
+                              );
+                            }
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="lg:text-start">
                   <h3 className="text-[25px] mt-3">Seating Key</h3>
@@ -233,12 +162,22 @@ const Booking = () => {
                   Change movie
                 </button>
               </Link>
-              <Link to="/payment" className="w-[40%]">
-                <Button
+              {infoBooking.seatSelected !== null &&
+              infoBooking.seatSelected.length > 0 ? (
+                <Link to="/payment" className="w-[40%]">
+                  <Button
+                    value="Checkout now"
+                    class="rounded-[5px] h-[35px] py-0"
+                  ></Button>
+                </Link>
+              ) : (
+                <button
                   value="Checkout now"
-                  class="rounded-[5px] h-[35px] py-0"
-                ></Button>
-              </Link>
+                  class="rounded-[5px] h-[35px] bg-[#eaeaea] py-0 w-[40%]"
+                >
+                  pick seats
+                </button>
+              )}
             </div>
           </div>
         </section>
@@ -252,33 +191,35 @@ const Booking = () => {
                 <img alt="" src={Ebu} />
               </div>
               <p className="w-full text-[#14142b] font-semibold tracking-[0.75px] text-[1.5vw] mb-[35px]">
-                Ebu.id
+                {infoBooking?.nameCinema}
               </p>
               <div className="mb-[30px]">
                 <div className="flex justify-between my-[10px]">
                   <p className="text-[#6b6b6b] text-[14px]">Movie selected</p>
                   <span className="text-[#14142b] font-bold text-[14px]">
-                    Spider-Man: Homecoming
+                    {details?.title}
                   </span>
                 </div>
                 <div className="flex justify-between my-[10px]">
                   <p className="text-[#6b6b6b] text-[14px]">
-                    Tuesday, 07 July 2020
+                    {infoBooking?.dateBooking}
                   </p>
                   <span className="text-[#14142b] font-bold text-[14px]">
-                    02:00
+                    {infoBooking?.timeBooking}
                   </span>
                 </div>
                 <div className="flex justify-between my-[10px]">
                   <p className="text-[#6b6b6b] text-[14px]">One ticket price</p>
                   <span className="text-[#14142b] font-bold text-[14px]">
-                    $10
+                    {infoBooking?.price}
                   </span>
                 </div>
                 <div className="flex justify-between my-[10px]">
                   <p className="text-[#6b6b6b] text-[14px]">Seat choosed</p>
                   <span className="text-[#14142b] font-bold text-[14px]">
-                    C4, C5, C6
+                    {infoBooking.seatSelected
+                      ? infoBooking?.seatSelected.join(",")
+                      : "-"}
                   </span>
                 </div>
               </div>
@@ -286,7 +227,9 @@ const Booking = () => {
               <div className="flex items-center justify-between">
                 <p className="text-[18px] font-semibold">Total Payment</p>
                 <span className="text-[24px] text-[#fca311] font-bold">
-                  $30
+                  {infoBooking.price
+                    ? `Rp.${Number(infoBooking.price) * selected.length}`
+                    : `Rp.0`}
                 </span>
               </div>
             </div>

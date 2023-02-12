@@ -7,10 +7,73 @@ import BRI from "../asset/logo/BRI.svg";
 import BCA from "../asset/logo/BCA.svg";
 import Warning from "../asset/logo/warning.svg";
 import Button from "../collection/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavUser from "../collection/NavUser";
+import http from "../helper/http";
+import { transactionAction } from "../redux/actions/transactions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Payment = () => {
+  const navigation = useNavigate();
+  const [profile, setProfile] = React.useState([]);
+  const [payment, setPayment] = React.useState([]);
+  const [selected, setSelected] = React.useState(0);
+  const infoBooking = useSelector((state) => state.transaction);
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  console.log(selected);
+  React.useEffect(() => {
+    getProfile();
+    getPaymentMethod();
+  }, [setSelected]);
+
+  const getProfile = async () => {
+    const { data: result } = await http(token).get("/profile");
+    setProfile(result.data[0]);
+  };
+  const getPaymentMethod = async () => {
+    try {
+      const { data: results } = await http().get("/scheduleMovies/payment");
+      setPayment(results.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  let total = 0;
+  if (infoBooking.seatSelected) {
+    if (infoBooking.seatSelected.length) {
+      total = Number(infoBooking.price) * infoBooking.seatSelected.length;
+    }
+  }
+
+  const transactionProses = () => {
+    if (selected !== 0) {
+      const callback = (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          navigation("/history");
+        }
+      };
+      const form = {
+        fullName: profile.firstName + " " + profile.lastName,
+        phoneNumber: profile.phoneNumber,
+        email: profile.email,
+        timeBooking: infoBooking.timeBooking,
+        dateBooking: infoBooking.dateBooking,
+        idUsers: profile.id,
+        idMovie: infoBooking.idMovie,
+        idCinema: infoBooking.idCinema,
+        idPayMethod: selected,
+        seatNum: infoBooking.seatSelected,
+        total: total,
+        callback,
+      };
+      dispatch(transactionAction(form));
+    } else {
+      alert("selected payment method");
+    }
+  };
   return (
     <>
       <NavUser></NavUser>
@@ -24,42 +87,42 @@ const Payment = () => {
               <div className="flex justify-between items-center py-[15px]">
                 <p className="text-[16px] text-[#6b6b6b]">Date & time</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
-                  Tuesday, 07 July 2020 at 02:00
+                  {infoBooking?.dateBooking} & {infoBooking?.timeBooking}
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
                 <p className="text-[16px] text-[#6b6b6b]">Movie title</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
-                  Spider-Man: Homecoming
+                  {infoBooking.nameMovie}
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
                 <p className="text-[16px] text-[#6b6b6b]">Cinema name</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
-                  CineOne21 Cinema
+                  {infoBooking.nameCinema}
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
                 <p className="text-[16px] text-[#6b6b6b]">Number of tickets</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
-                  3 pieces
+                  {infoBooking.seatSelected.length} pieces
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
-                <p className="text-[16px] text-[#6b6b6b]">Total payment</p>
+                <p className="text-[16px] text-[#6b6b6b]">Price one ticket</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
-                  $30,00
+                  Rp.{infoBooking?.price}
                 </span>
               </div>
             </div>
             <div className="bg-white rounded-[5px] mb-[20px] flex justify-between items-center py-[20px] px-4">
               <p className="text-[30px]">Total Payment</p>
               <span className="text-[20px] text-[#14142b] font-semibold">
-                $30,00
+                Rp.{total}
               </span>
             </div>
           </div>
@@ -69,30 +132,18 @@ const Payment = () => {
             </h3>
             <div className="bg-white rounded-[5px] mb-[20px] py-[20px] px-4">
               <div className="method grid grid-cols-4 w-full gap-[30px]">
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={BRI} />
-                </div>
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={Paypal} />
-                </div>
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={BCA} />
-                </div>
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={Dana} />
-                </div>
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={BRI} />
-                </div>
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={BRI} />
-                </div>
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={BRI} />
-                </div>
-                <div className="border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px]">
-                  <img alt="" src={BRI} />
-                </div>
+                {payment?.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => setSelected(item.id)}
+                    className={`border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px] ${
+                      selected === item.id ? "bg-[#fca311]" : ""
+                    }`}
+                  >
+                    {/* <img alt="" src={BRI} /> */}
+                    <p className="font-semibold">{item.name}</p>
+                  </div>
+                ))}
               </div>
               <p className="w-full text-center font-bold py-[15px]">OR</p>
               <p className="text-[#6e7191] text-[17px] w-full text-center">
@@ -108,12 +159,17 @@ const Payment = () => {
                   Previous Step
                 </button>
               </Link>
-              <Link to="/history" className="w-[40%]">
+              {selected !== 0 ? (
                 <Button
+                  submit={()=>transactionProses()}
                   value="Pay your order"
-                  class="rounded-[5px] h-[35px] py-0"
+                  class="rounded-[5px] w-[40%]"
                 ></Button>
-              </Link>
+              ) : (
+                <button class="rounded-[5px] w-[40%] py-[10px] my-[5px] py-2 bg-[#eaeaea] border-[#000] border-1">
+                  Pay your order
+                </button>
+              )}
             </div>
           </div>
         </section>
@@ -128,12 +184,14 @@ const Payment = () => {
                   label="Full Name"
                   type="text"
                   id="fullname"
+                  value={`${profile.firstName} ${profile.lastName}`}
                   className="rounded-[5px]"
                 />
                 <Input
                   label="Email"
                   type="email"
                   id="email"
+                  value={profile.email}
                   className="rounded-[5px]"
                 />
                 <div className="input-part text-[16px] text-[#4e4b66]">
@@ -146,14 +204,15 @@ const Payment = () => {
                       type="text"
                       id="phonenumber"
                       placeholder={`Write your Phone Number`}
+                      value={profile.phoneNumber}
                       className={`w-full bg-[#fcfdfe] border rounded-[5px] divide-solid border-slate-300 py-[10px] pl-[60px] mt-[6px] mb-[8px]`}
                       required
                     />
                   </div>
                 </div>
-                <div className="bg-orange-200 rounded-[4px] w-full flex py-[8px] pl-[24px] items-center mt-[10px]">
+                <div className="bg-orange-200 rounded-[4px] w-full flex py-[8px] px-[24px] items-center mt-[10px]">
                   <img alt="" src={Warning} className="pr-5" />
-                  <p>Fill your data correctly.</p>
+                  <p>Change the data in the profile.</p>
                 </div>
               </form>
             </div>

@@ -3,46 +3,84 @@ import Footer from "../collection/Footer";
 // import images from "../asset/img/movie.png";
 import Location from "../asset/logo/location.svg";
 import Ebu from "../asset/logo/ebu.svg";
-import Button from "../collection/Button";
-import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import NavUser from "../collection/NavUser";
 import moment from "moment";
-import http from "../helper/http"
+import http from "../helper/http";
 import Navbar from "../collection/Navbar";
 import FooterPublic from "../collection/FooterPublic";
 
+import { chooseMovie } from "../redux/reducers/transaction";
+
 const Details = () => {
-  const valueToken = useSelector(state => state.auth.token)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
   const [details, setDetails] = React.useState({});
   const [date, setDate] = React.useState(moment().format("YYYY-MM-DD"));
-  // const [cityList, setCityList] = React.useState([]);
-  // const [city, setCity] = React.useState("");
+  const [time] = React.useState(moment().format("HHmmSS"));
+  const [schedule, setSchedule] = React.useState([]);
+  const [city, setCity] = React.useState([]);
+  const [selectedTime, setSelectedTime] = React.useState("");
+  const [selectedCinema, setSelectedCinema] = React.useState("");
+  const [logoCinema, setImageCinema] = React.useState("");
+  const [nameCinema, setNameCinema] = React.useState("");
+  const [price, setPrice] = React.useState("");
   const { id } = useParams();
   React.useEffect(() => {
     getDetails(id);
+    getSchedule();
+    getCity();
   }, [id]);
   const getDetails = async (id) => {
     const { data: result } = await http().get(
       "http://localhost:8888/movies/" + id
     );
-    // console.log(result.data[0])
     return setDetails(result.data[0]);
   };
-
-  // React.useEffect(() => {
-  //   getCityList();
-  // }, []);
-  // const getCityList = async () => {
-  //   const { data: result } = await http().get('/cinemas')
-  //   console.log(result.data.city)
-  //   return setDetails(result.data.city);
-  // };
-
+  const getSchedule = async () => {
+    const { data: result } = await http(token).get(
+      `/scheduleMovies/info/${id}`
+    );
+    setSchedule(result.data);
+  };
+  const getCity = async () => {
+    const { data: result } = await http(token).get(
+      `/scheduleMovies/city/${id}`
+    );
+    setCity(result.data);
+  };
+  const bookingActions = () => {
+    if (selectedTime) {
+      const idMovie = schedule[0].id;
+      const idCinema = selectedCinema;
+      const timeBooking = selectedTime;
+      const dateBooking = date;
+      dispatch(
+        chooseMovie({
+          idMovie,
+          idCinema,
+          timeBooking,
+          dateBooking,
+          logoCinema,
+          price,
+          nameCinema,
+          nameMovie: details.title,
+        })
+      );
+      navigate("/booking");
+    } else {
+      alert("first select the available time");
+    }
+  };
   return (
     <>
-      {valueToken?<NavUser></NavUser>:<Navbar/>}
-      <main className="flex flex-col md:flex-row pl-[50px] lg:pl-[120px] pr-[20px] overflow-hidden py-[50px] align-center">
+      {token ? <NavUser></NavUser> : <Navbar />}
+      <main
+        key={details.id}
+        className="flex flex-col md:flex-row pl-[50px] lg:pl-[120px] pr-[20px] overflow-hidden py-[50px] align-center"
+      >
         <section className="left w-full md:w-2/5 flex align-center justify-center">
           <div className="w-[50%] md:w-[250px] h-min rounded-[16px] border p-[20px] box-content mr-[50px]">
             <img
@@ -64,7 +102,7 @@ const Details = () => {
               <div className="mb-2 sm:mb-0">
                 <p className="text-[#8692a6] text-[14px]">Release date</p>
                 <span className="truncate text-[#121212] text-[18px]">
-                  {details.dateRelease}
+                  {details.dateRelease?.slice(0, 10)}
                 </span>
               </div>
               <div className="mb-2 sm:mb-0">
@@ -98,97 +136,108 @@ const Details = () => {
           </div>
         </section>
       </main>
-      {valueToken?<section className="px-[120px] bg-[#f5f6f8] py-[30px] text-center">
-        <h3 className="text-[#14142b] text-[32px]">Showtimes and Ticket</h3>
-        <div className="flex justify-center gap-5 mt-[20px]">
-          <div className="bg-[#eff0f6] py-[14px] px-2 rounded-[5px] text-[#000] cursor-pointer">
-            <input
-              type="date"
-              name="date"
-              id="date"
-              defaultValue={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="outline-none bg-[#eff0f6] cursor-pointer"
-            />
+      {token ? (
+        <section className="px-[120px] bg-[#f5f6f8] py-[30px] text-center">
+          <h3 className="text-[#14142b] text-[32px]">Showtimes and Ticket</h3>
+          <div className="flex justify-center gap-5 mt-[20px]">
+            <div className="bg-[#eff0f6] py-[14px] px-2 rounded-[5px] text-[#000] cursor-pointer">
+              <input
+                type="date"
+                name="date"
+                id="date"
+                defaultValue={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="outline-none bg-[#eff0f6] cursor-pointer"
+              />
+            </div>
+            <div className="bg-[#eff0f6] py-[14px] relative pl-[40px] pr-3 cursor-pointer">
+              <img
+                src={Location}
+                alt="logo-location"
+                className="absolute left-[10px]"
+              />
+              <select
+                name="sort"
+                className="bg-[#eff0f6] outline-none cursor-pointer"
+              >
+                <option value="" disabled selected hidden>
+                  Location
+                </option>
+                {city?.map((item) => (
+                  <option key={item} value={item.city}>
+                    {item.city}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="bg-[#eff0f6] py-[14px] relative pl-[40px] pr-3 cursor-pointer">
-            <img
-              src={Location}
-              alt="logo-location"
-              className="absolute left-[10px]"
-            />
-            <select
-              name="sort"
-              className="bg-[#eff0f6] outline-none cursor-pointer"
-            >
-              <option value="" disabled selected hidden>
-                Location
-              </option>
-              <option value="jakarta">Jakarta</option>
-              <option value="jawabarat">Jawa Barat</option>
-              <option value="jawatengah">Jawa Tengah</option>
-              <option value="jawatimur">Jawa Timur</option>
-              <option value="sumatra">Sumatra</option>
-            </select>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 justify-center gap-[30px] my-[25px] px-[5%]">
-          <div className="card p-[25px] border rounded-[8px] bg-white text-start overflow-hidden">
-            <div className="header-card flex items-center gap-3">
-              <div className="w-1/3 flex">
-                <div className="w-[100%]">
-                  <img alt="w-[100%] h-auto" src={Ebu} />
+          <div className="grid grid-cols-3 justify-center gap-[30px] my-[25px] px-[5%]">
+            {schedule?.map((data) => (
+              <div className="card p-[25px] border rounded-[8px] bg-white text-start overflow-hidden">
+                <div className="header-card flex items-center gap-3">
+                  <div className="w-1/3 flex">
+                    <div className="w-[100%]">
+                      <img alt="w-[100%] h-auto" src={Ebu} />
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-[23px] mb-1">{data.name}</h4>
+                    <p className="leading-5 text-[15px] text-[#6e7191]">
+                      {data.address}, {data.city}
+                    </p>
+                  </div>
                 </div>
+                <hr className="mx-[-30px] my-[20px]" />
+                <div className="time">
+                  {data?.times?.map((item) => {
+                    const timeReplace = item.replace(":", "").replace(":", "");
+                    if (time < Number(timeReplace)) {
+                      return (
+                        <p
+                          key={item}
+                          onClick={() => {
+                            setSelectedTime(item);
+                            setSelectedCinema(data.idCinema);
+                            setImageCinema(data.logo);
+                            setNameCinema(data.name);
+                            setPrice(data.price);
+                          }}
+                          className={`w-[33%] text-center text-[15px] text-[#4e4b66] inline-block rounded-[8px] cursor-pointer ${
+                            selectedTime === item && "bg-[#eaea] border"
+                          }`}
+                        >
+                          {item}
+                        </p>
+                      );
+                    }
+                  })}
+                </div>
+                <div className="price flex justify-between items-center my-[20px]">
+                  <p className="text-[18px] text-[#6b6b6b]">Price</p>
+                  <span className="text-[#000] text-[18px] font-semibold">
+                    {data.price}/seat
+                  </span>
+                </div>
+                <button
+                  onClick={() => bookingActions()}
+                  className={`btn btn-md w-full py-[10px] my-[5px] bg-[#fca311] text-white text-center cursor-pointer rounded-[16px] hover:bg-orange-600`}
+                >
+                  Book now
+                </button>
               </div>
-              <div>
-                <h4 className="text-[23px] mb-1">ebv.id</h4>
-                <p className="leading-5 text-[15px] text-[#6e7191]">
-                  Whatever street No.12, South Purwokerto
-                </p>
-              </div>
-            </div>
-            <hr className="mx-[-30px] my-[20px]" />
-            <div className="time">
-              <p className="leading-[30px] mr-[10px] text-[15px] text-[#4e4b66] inline-block">
-                00.00pm
-              </p>
-              <p className="leading-[30px] mr-[10px] text-[15px] text-[#4e4b66] inline-block">
-                00.00pm
-              </p>
-              <p className="leading-[30px] mr-[10px] text-[15px] text-[#4e4b66] inline-block">
-                00.00pm
-              </p>
-              <p className="leading-[30px] mr-[10px] text-[15px] text-[#4e4b66] inline-block">
-                00.00pm
-              </p>
-              <p className="leading-[30px] mr-[10px] text-[15px] text-[#4e4b66] inline-block">
-                00.00pm
-              </p>
-              <p className="leading-[30px] mr-[10px] text-[15px] text-[#4e4b66] inline-block">
-                00.00pm
-              </p>
-            </div>
-            <div className="price flex justify-between items-center my-[20px]">
-              <p className="text-[18px] text-[#6b6b6b]">Price</p>
-              <span className="text-[#000] text-[18px] font-semibold">
-                $10.00/seat
-              </span>
-            </div>
-            <Link to="/booking">
-              <Button value="Book now"></Button>
+            ))}
+          </div>
+          <div className="text-center w-full">
+            <Link
+              to=""
+              className="font-bold text-[14px] md:text-[20px] tracking-[0.15px] text-[#fca311]"
+            >
+              view more
             </Link>
           </div>
-        </div>
-        <div className="text-center w-full">
-          <Link
-            to=""
-            className="font-bold text-[14px] md:text-[20px] tracking-[0.15px] text-[#fca311]"
-          >
-            view more
-          </Link>
-        </div>
-      </section>:null}
-      {valueToken?<Footer></Footer>:<FooterPublic/>}
+        </section>
+      ) : null}
+      {token ? <Footer></Footer> : <FooterPublic />}
     </>
   );
 };

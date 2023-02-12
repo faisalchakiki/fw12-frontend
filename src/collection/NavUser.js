@@ -1,11 +1,12 @@
 import React from "react";
 
-import Avatar from "../asset//img/avatar.png";
+import Avatar from "../asset//img/man-icon.png";
 import SearchTool from "../asset//logo/search-tool.svg";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutAction } from "../redux/reducers/auth";
 import { useNavigate } from "react-router-dom";
+import http from "../helper/http";
 
 const NavUser = () => {
   const navigate = useNavigate();
@@ -13,6 +14,15 @@ const NavUser = () => {
   const Logout = () => {
     dispatch(logoutAction());
     return navigate("/login");
+  };
+  const [profile, setProfile] = React.useState([]);
+  const token = useSelector(state => state.auth.token)
+  React.useEffect(() => {
+    getProfile();
+  }, []);
+  const getProfile = async () => {
+    const { data } = await http(token).get("/profile");
+    setProfile(data.data[0]);
   };
   return (
     <>
@@ -43,16 +53,17 @@ const NavUser = () => {
         </div>
         <div className="avatar group relative">
           <div className="w-[45px] h-[45px] cursor-pointer rounded-full overflow-hidden flex items-center justify-center">
-            <img alt="" src={Avatar} className="w-full mask mask-hexagon"/>
+            {profile.avatar !== null ? <img alt="" src={profile.avatar} className="w-full mask mask-hexagon"/> : <img alt="" src={Avatar} className="w-full mask mask-hexagon"/>}
+
           </div>
-          <div className="absolute bg-[#eaeaea] left-[-50%] mt-[100%] py-[5px] px-[20px] rounded-[5px] border border-black invisible group-hover:visible"> 
+          <div className="absolute bg-[#eaeaea] left-[-50%] mt-[100%] py-[5px] px-[20px] rounded-[5px] border border-black invisible group-hover:visible">
             <Link to="/profile" className="hover:text-blue-500">
               <p>Profil</p>
             </Link>
             <Link onClick={Logout}>
               <p className="hover:text-blue-500">Logout</p>
             </Link>
-          </div> 
+          </div>
         </div>
       </nav>
     </>

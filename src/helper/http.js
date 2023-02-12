@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const http = (token) => {
-  const header = {};
+  const headers = {};
   if (token) {
-    header.authorization = "Bearer " + token;
+    headers.authorization = "Bearer " + token;
   }
   const instance = axios.create({
-    baseURL: "http://localhost:8888",
-    header,
+    baseURL: process.env.REACT_APP_URL_BACKEND,
+    headers,
   });
   return instance;
 };
