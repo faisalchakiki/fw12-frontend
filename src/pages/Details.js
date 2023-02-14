@@ -35,7 +35,7 @@ const Details = () => {
   }, [id]);
   const getDetails = async (id) => {
     const { data: result } = await http().get(
-      "http://localhost:8888/movies/" + id
+      "/movies/" + id
     );
     return setDetails(result.data[0]);
   };

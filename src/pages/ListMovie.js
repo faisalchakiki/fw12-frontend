@@ -8,6 +8,7 @@ import FooterPublic from "../collection/FooterPublic";
 import Month from "../collection/Month";
 import Navbar from "../collection/Navbar";
 import NavUser from "../collection/NavUser";
+import http from "../helper/http";
 
 const ListMovie = () => {
   const valueToken = useSelector((state) => state.auth.token);
@@ -18,8 +19,8 @@ const ListMovie = () => {
     });
   }, []);
   const getAllMovies = async () => {
-    const { data: result } = await axios.get(
-      "http://localhost:8888/movies?limit=8"
+    const { data: result } = await http().get(
+      "/movies?limit=8"
     );
     return result;
   };

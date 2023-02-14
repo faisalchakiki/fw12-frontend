@@ -22,7 +22,7 @@ const Booking = () => {
   }, [setSelected, selected, price, setPrice]);
   const getDetails = async () => {
     const { data: result } = await http().get(
-      "http://localhost:8888/movies/" + infoBooking.idMovie
+      "/movies/" + infoBooking.idMovie
     );
     return setDetails(result.data[0]);
   };

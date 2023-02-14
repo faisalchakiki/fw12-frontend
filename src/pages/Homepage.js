@@ -11,6 +11,7 @@ import Month from "../collection/Month.js";
 import NavUser from "../collection/NavUser.js";
 import {useSelector} from "react-redux"
 import Footer from "../collection/Footer.js";
+import http from "../helper/http.js";
 
 const Homepage = () => {
   const valueToken = useSelector(state => state.auth.token);
@@ -21,8 +22,8 @@ const Homepage = () => {
     });
   }, []);
   const getNowShowing = async () => {
-    const { data: result } = await axios.get(
-      "http://localhost:8888/movies/nowShowing"
+    const { data: result } = await http().get(
+      "/movies/nowShowing"
     );
     return result;
   };
@@ -37,8 +38,8 @@ const Homepage = () => {
   }, []);
 
   const getUpComing = async () => {
-    const { data: result } = await axios.get(
-      "http://localhost:8888/movies/upComing"
+    const { data: result } = await http().get(
+      "/movies/upComing"
     );
     return result;
   };
