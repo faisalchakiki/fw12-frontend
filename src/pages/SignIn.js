@@ -12,7 +12,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = document.querySelector(".alert");
-  
+
   if (window.addEventListener) {
     window.addEventListener("click", () => alert.classList.add("hidden"));
   }
@@ -51,7 +51,7 @@ export default function SignIn() {
         </p>
         <form onSubmit={login}>
           <Input label="Email" id="email" type="email" />
-          <InputPass id="password"/>
+          <InputPass id="password" label='Password'/>
           <Button value="Sign In"></Button>
         </form>
         <div className="w-full text-center mt-3">

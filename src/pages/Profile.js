@@ -8,6 +8,18 @@ import NavUser from "../collection/NavUser";
 import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutAction } from "../redux/reducers/auth";
 import http from "../helper/http";
+import * as Yup from "yup"
+import "yup-phone"
+import { Formik } from "formik";
+
+const validateSchemaProfile = Yup.object({
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  phoneNumber: Yup.string()
+    .phone("ID", true, "Phone number is invalid")
+    .required("Required"),
+  email: Yup.string().email().required("Required"),
+});
 
 const Profil = () => {
   const navigate = useNavigate();

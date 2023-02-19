@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../collection/Footer";
 import NavUser from "../collection/NavUser";
 import Button from "../collection/Button";
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { chooseSeats } from "../redux/reducers/transaction";
 
 const Booking = () => {
+  const navigate = useNavigate();
   const infoBooking = useSelector((state) => state.transaction);
   const dispatch = useDispatch();
   const [details, setDetails] = React.useState([]);
@@ -16,25 +17,30 @@ const Booking = () => {
   const [price, setPrice] = React.useState(
     Number(infoBooking.price) * selected.length
   );
-  console.log(selected);
-  React.useEffect(() => {
-    getDetails();
-  }, [setSelected, selected, price, setPrice]);
-  const getDetails = async () => {
-    const { data: result } = await http().get(
-      "/movies/" + infoBooking.idMovie
-    );
-    return setDetails(result.data[0]);
-  };
+
   const seatSelected = (value) => {
     if (selected.includes(value)) {
       setSelected(selected.filter((_values) => _values !== value));
-      return dispatch(chooseSeats(selected));
     } else {
       setSelected([...selected, value]);
-      return dispatch(chooseSeats(selected));
     }
   };
+
+  React.useEffect(() => {
+    getDetails();
+  }, [setSelected, selected, price, setPrice]);
+
+  const getDetails = async () => {
+    const { data: result } = await http().get("/movies/" + infoBooking.idMovie);
+    return setDetails(result.data[0]);
+  };
+
+  const goPayment = () => {
+    console.log("tes");
+    dispatch(chooseSeats(selected));
+    navigate("/payment");
+  };
+
   return (
     <>
       <NavUser />
@@ -155,21 +161,19 @@ const Booking = () => {
               </main>
             </div>
             <div className="flex justify-between items-center my-5">
-              <Link to="/listMovieMain" className="w-[40%]">
+              <Link to="/listMovie" className="w-[40%]">
                 <button
                   className={`w-full text-[#fca311] h-[35px] border-[2px] border-[#fca311] font-bold text-center cursor-pointer rounded-[4px] hover:bg-[#fca311] hover:text-white`}
                 >
                   Change movie
                 </button>
               </Link>
-              {infoBooking.seatSelected !== null &&
-              infoBooking.seatSelected.length > 0 ? (
-                <Link to="/payment" className="w-[40%]">
-                  <Button
-                    value="Checkout now"
-                    class="rounded-[5px] h-[35px] py-0"
-                  ></Button>
-                </Link>
+              {selected.length > 0 ? (
+                <Button
+                  submit={() => goPayment()}
+                  value="Checkout now"
+                  class="rounded-[5px] h-[35px] py-0 w-[40%]"
+                ></Button>
               ) : (
                 <button
                   value="Checkout now"
@@ -217,9 +221,7 @@ const Booking = () => {
                 <div className="flex justify-between my-[10px]">
                   <p className="text-[#6b6b6b] text-[14px]">Seat choosed</p>
                   <span className="text-[#14142b] font-bold text-[14px]">
-                    {infoBooking.seatSelected
-                      ? infoBooking?.seatSelected.join(",")
-                      : "-"}
+                    (selected seats)
                   </span>
                 </div>
               </div>

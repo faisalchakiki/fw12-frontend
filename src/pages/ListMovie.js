@@ -12,47 +12,55 @@ import http from "../helper/http";
 
 const ListMovie = () => {
   const valueToken = useSelector((state) => state.auth.token);
-  const [movie, setMovie] = React.useState({});
-  useEffect(() => {
-    getAllMovies().then((res) => {
-      setMovie(res);
-    });
-  }, []);
-  const getAllMovies = async () => {
+  const [movie, setMovie] = React.useState([]);
+  const [limit] = React.useState(8);
+  const [count, setCountPage] = React.useState(1);
+  const [page, setPage] = React.useState(1);
+  const [search, setSearch] = React.useState('');
+
+  React.useEffect(() => {
+    getMovie(page, limit, search);
+  }, [page, limit, search]);
+
+  const getMovie = async (pages, limits, searchs) => {
     const { data: result } = await http().get(
-      "/movies?limit=8"
+      `/movies?limit=${limits}&page=${pages}&search=${searchs}`
     );
-    return result;
+    setMovie(result.data);
+    setCountPage(result.pageInfo.totalPage);
   };
-  //   console.log(movie);
-  const num = [1, 2, 3, 4, 5];
+
+  const totalPage = [];
+  for (let countPage = 1; countPage <= count; countPage++) {
+    totalPage.push(countPage);
+  }
   return (
     <div>
       {!valueToken ? <Navbar /> : <NavUser />}
       <main className="bg-[#f5f6f8] h-auto pt-[40px] flex flex-col">
         <div className="px-[50px] lg:px-[120px] flex-col md:flex-row flex justify-between items-center">
           <h3 className="text-[#14142b] text-[32px]">List Movie</h3>
-          <div>
-            <select
-              name="sort"
-              className="py-2 px-3 rounded-[20px] outline-0 mr-[20px] my-3 sm:my-0"
-            >
-              <option class="option" value="" disabled selected hidden>
-                Sort
-              </option>
-              <option class="option" value="school">
-                A - Z
-              </option>
-              <option class="option" value="romance">
-                Z - A
-              </option>
-              <option class="option" value="action">
-                Created At
-              </option>
-            </select>
+          <div className="flex">
+            <div className="bg-white px-3 rounded-[20px] outline-0 mr-[20px] my-3 sm:my-0 border">
+              <select
+                name="sort"
+                className="w-full py-2 px-3 rounded-[20px] outline-0 mr-[20px] my-3 sm:my-0"
+              >
+                <option class="option" value="" disabled selected hidden>
+                  Sort
+                </option>
+                <option class="option" value="ASC">
+                  A - Z
+                </option>
+                <option class="option" value="DESC">
+                  Z - A
+                </option>
+              </select>
+            </div>
             <input
               className="py-2 px-3 rounded-[20px] outline-0 "
               type="text"
+              onChange={e => setSearch(e.target.value)}
               name="search-movie"
               placeholder="Search Movie Name ..."
               placeholderTextColor="#000"
@@ -61,7 +69,7 @@ const ListMovie = () => {
         </div>
         <Month />
         <div className="py-[30px] px-[2%] sm:px-[2%] lg:px-[4%] rounded-[5px] mt-5 mx-[50px] lg:mx-[120px] bg-white justify-center grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {movie?.data?.map((data) => (
+          {movie?.map((data) => (
             <div className="bg-slate-100 p-5 rounded-[5px] w-[100%] text-center">
               <div className="w-full">
                 <img
@@ -86,8 +94,8 @@ const ListMovie = () => {
           ))}
         </div>
         <div className="flex justify-center my-3">
-          {num.map((res) => {
-            if (res === 1) {
+          {totalPage.map((res) => {
+            if (res === page) {
               return (
                 <div className="w-[30px] h-[30px] flex items-center justify-center rounded bg-[#fca311] text-white border border-[#dedede] font-semibold cursor-pointer mx-1">
                   {res}
@@ -95,7 +103,7 @@ const ListMovie = () => {
               );
             } else {
               return (
-                <div className="w-[30px] h-[30px] bg-white flex items-center justify-center rounded hover:bg-[#fca311] hover:text-white border border-[#dedede] font-semibold cursor-pointer mx-1">
+                <div onClick={() => setPage(res)} className="w-[30px] h-[30px] bg-white flex items-center justify-center rounded hover:bg-[#fca311] hover:text-white border border-[#dedede] font-semibold cursor-pointer mx-1">
                   {res}
                 </div>
               );

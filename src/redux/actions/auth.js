@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import http from "../../helper/http";
 
 export const loginAction = createAsyncThunk(
@@ -25,7 +24,7 @@ export const registerAction = createAsyncThunk(
   "auth/registerAsync",
   async ({ email, password,firstName,lastName,phoneNumber,callback }) => {
     try {
-      const { data }= await http().post("/users", {
+      const { data }= await http().post("/auth/register", {
         email,
         password,
         firstName,

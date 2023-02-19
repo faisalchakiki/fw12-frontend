@@ -21,7 +21,6 @@ const Payment = () => {
   const infoBooking = useSelector((state) => state.transaction);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  console.log(selected);
   React.useEffect(() => {
     getProfile();
     getPaymentMethod();
@@ -184,7 +183,7 @@ const Payment = () => {
                   label="Full Name"
                   type="text"
                   id="fullname"
-                  value={`${profile.firstName} ${profile.lastName}`}
+                  value={`${profile?.firstName ? profile.firstName : "-"} ${profile?.lastName ? profile.lastName : ""}`}
                   className="rounded-[5px]"
                 />
                 <Input

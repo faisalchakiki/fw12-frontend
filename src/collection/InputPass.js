@@ -13,15 +13,15 @@ const InputPass = (props) => {
   return (
     <>
       <div className="input-part text-[16px] text-[#4e4b66]">
-        <label for="password">Password</label>
+        <label for="password">{props.label}</label>
         <div className="relative">
           <input
             type="password"
-            id="password"
-            name="password"
-            placeholder={`Write your Password`}
+            id={props.id}
+            onChange={props.change}
+            name={props.name}
+            placeholder={`Write your ${props.label}`}
             className={`w-full bg-[#fcfdfe] border rounded-2xl divide-solid border-slate-300 py-[10px] pl-[24px] mt-[6px] mb-[8px]`}
-            required
           />
           <img
             className="absolute right-[10px] top-[35%] cursor-pointer"
