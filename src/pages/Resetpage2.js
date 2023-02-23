@@ -9,8 +9,8 @@ YupPassword(Yup);
 
 const validateSchema = Yup.object({
   code: Yup.number().typeError("code must be a number").required("Required"),
-  password: Yup.string().password().required("Required").min(6),
-  Confirm_Password: Yup.string().password().required("Required").min(6),
+  password: Yup.string().required("Required").min(6),
+  Confirm_Password: Yup.string().required("Required").min(6),
 });
 
 const Resetpage2 = () => {

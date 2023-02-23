@@ -10,16 +10,16 @@ import { logout as logoutAction } from "../redux/reducers/auth";
 import http from "../helper/http";
 import * as Yup from "yup"
 import "yup-phone"
-import { Formik } from "formik";
+// import { Formik } from "formik";
 
-const validateSchemaProfile = Yup.object({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
-  phoneNumber: Yup.string()
-    .phone("ID", true, "Phone number is invalid")
-    .required("Required"),
-  email: Yup.string().email().required("Required"),
-});
+// const validateSchemaProfile = Yup.object({
+//   firstName: Yup.string().required("Required"),
+//   lastName: Yup.string().required("Required"),
+//   phoneNumber: Yup.string()
+//     .phone("ID", true, "Phone number is invalid")
+//     .required("Required"),
+//   email: Yup.string().email().required("Required"),
+// });
 
 const Profil = () => {
   const navigate = useNavigate();
@@ -86,7 +86,12 @@ const Profil = () => {
       setInterval(() => {
         setAlert("");
       }, 3000);
-    } else {
+    } else if(password.newPassword.length < 6 ) {
+      setAlert("password min 6 character");
+      setInterval(() => {
+        setAlert("");
+      }, 3000);
+    }else {
       const { data: result } = await http(token).patch("/profile/password", {
         password: password.newPassword,
       });
@@ -141,7 +146,7 @@ const Profil = () => {
       <main className="flex gap-5 px-[120px] py-[50px] bg-[#f5f6f8] items-start">
         <section className="bg-white rounded-[24px] w-[25%] p-[20px]">
           <p className="">INFO</p>
-          <div className="w-[50%] h-auto border-[2px] border-black my-[20px] mx-auto rounded-full overflow-hidden">
+          <div className="max-w-[50%] h-[100%] border-[2px] border-black my-[20px] mx-auto rounded-full overflow-hidden">
             {profile.avatar !== null ? (
               <img alt="" src={profile.avatar} className="w-full h-auto" />
             ) : (

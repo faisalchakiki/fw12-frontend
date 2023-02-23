@@ -19,7 +19,7 @@ const validateSchema = Yup.object({
     .phone("ID", true, "Phone number is invalid")
     .required("Required"),
   email: Yup.string().email().required("Required"),
-  password: Yup.string().password().required("Required").min(6),
+  password: Yup.string().required("Required").min(6),
 });
 
 const SignUp = () => {
@@ -34,7 +34,9 @@ const SignUp = () => {
         setAlert("failed");
       } else {
         setAlert("success");
-        navigate("/login");
+        setInterval(()=>{
+          navigate("/login");
+        },2000)
       }
     };
     dispatch(

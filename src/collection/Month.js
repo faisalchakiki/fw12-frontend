@@ -21,13 +21,13 @@ const Month = () => {
         const setMonth = new Date();
         if (index === setMonth.getMonth()) {
           return (
-            <div className="border-2 mr-2 rounded border-[#fca311] p-2 text-[12px] md:text-[15px] min-w-[80px] md:min-w-[100px] text-center cursor-pointer bg-[#fca311] text-white">
+            <div key={index} className="border-2 mr-2 rounded border-[#fca311] p-2 text-[12px] md:text-[15px] min-w-[80px] md:min-w-[100px] text-center cursor-pointer bg-[#fca311] text-white">
               {value}
             </div>
           );
         }
         return (
-          <div className="border-2 mr-2 rounded border-[#fca311] min-w-[80px] text-[#fca311] p-2 text-[12px] md:text-[15px] md:min-w-[100px] text-center cursor-pointer hover:bg-[#fca311] hover:text-white">
+          <div key={index} className="border-2 mr-2 rounded border-[#fca311] min-w-[80px] text-[#fca311] p-2 text-[12px] md:text-[15px] md:min-w-[100px] text-center cursor-pointer hover:bg-[#fca311] hover:text-white">
             {value}
           </div>
         );

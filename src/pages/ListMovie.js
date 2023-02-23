@@ -16,15 +16,17 @@ const ListMovie = () => {
   const [limit] = React.useState(8);
   const [count, setCountPage] = React.useState(1);
   const [page, setPage] = React.useState(1);
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = React.useState("");
+  const [sort, setSort] = React.useState("DESC");
+  // console.log(sort);
 
   React.useEffect(() => {
-    getMovie(page, limit, search);
-  }, [page, limit, search]);
+    getMovie(page, limit, search, sort);
+  }, [page, limit, search, sort]);
 
-  const getMovie = async (pages, limits, searchs) => {
+  const getMovie = async (pages, limits, searchs, sorts) => {
     const { data: result } = await http().get(
-      `/movies?limit=${limits}&page=${pages}&search=${searchs}`
+      `/movies?limit=${limits}&page=${pages}&search=${searchs}&sort=${sorts}`
     );
     setMovie(result.data);
     setCountPage(result.pageInfo.totalPage);
@@ -49,18 +51,16 @@ const ListMovie = () => {
                 <option class="option" value="" disabled selected hidden>
                   Sort
                 </option>
-                <option class="option" value="ASC">
-                  A - Z
+                <option>
+                  <div onClick={(e) => console.log(e)}>A - Z</div>
                 </option>
-                <option class="option" value="DESC">
-                  Z - A
-                </option>
+                <option><p onClick={(e) => console.log(e)}>Z - A</p></option>
               </select>
             </div>
             <input
               className="py-2 px-3 rounded-[20px] outline-0 "
               type="text"
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               name="search-movie"
               placeholder="Search Movie Name ..."
               placeholderTextColor="#000"
@@ -103,7 +103,10 @@ const ListMovie = () => {
               );
             } else {
               return (
-                <div onClick={() => setPage(res)} className="w-[30px] h-[30px] bg-white flex items-center justify-center rounded hover:bg-[#fca311] hover:text-white border border-[#dedede] font-semibold cursor-pointer mx-1">
+                <div
+                  onClick={() => setPage(res)}
+                  className="w-[30px] h-[30px] bg-white flex items-center justify-center rounded hover:bg-[#fca311] hover:text-white border border-[#dedede] font-semibold cursor-pointer mx-1"
+                >
                   {res}
                 </div>
               );
