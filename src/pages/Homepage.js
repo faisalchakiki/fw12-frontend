@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 
 import BtnDetails from "../collection/BtnDetail.js";
 import Navbar from "../collection/Navbar";
@@ -82,7 +82,7 @@ const Homepage = () => {
                 <img
                   className="max-w-[100px] md:max-w-[150px] h-auto"
                   alt="Unknowe IMG"
-                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face${item.poster}`}
+                  src={`${item.poster}`}
                 />
               </div>
               <div className="detail text-center hidden group-hover:block">
@@ -117,7 +117,7 @@ const Homepage = () => {
                 <img
                   className="max-w-[100px] md:max-w-[150px] h-auto"
                   alt="not Img"
-                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face${data.poster}`}
+                  src={`${data.poster}`}
                   loading="lazy"
                 />
               </div>

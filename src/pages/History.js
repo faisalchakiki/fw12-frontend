@@ -105,10 +105,7 @@ const History = () => {
                     <h3 className="text-[24px]">{item.title}</h3>
                   </div>
                   <div className="w-[20%]">
-                    {/* <img alt="cinema" src={Ebu} className="mx-auto" /> */}
-                    <p className="font-bold text-[2vw]">
-                      {item.logo.replace(".png", "")}
-                    </p>
+                    <img alt="cinema" src={item.logo} className="mx-auto" />
                   </div>
                 </div>
                 <hr className="mx-[-25px]" />

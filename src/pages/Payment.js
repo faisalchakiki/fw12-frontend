@@ -135,12 +135,12 @@ const Payment = () => {
                   <div
                     key={item.id}
                     onClick={() => setSelected(item.id)}
-                    className={`border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px] ${
+                    className={`h-[50px] border-[2px] border-[#dedede] flex justify-center items-center cursor-pointer p-[5px] rounded-[8px] ${
                       selected === item.id ? "bg-[#fca311]" : ""
                     }`}
                   >
-                    {/* <img alt="" src={BRI} /> */}
-                    <p className="font-semibold">{item.name}</p>
+                    <img className="h-[80%]" alt="" src={item.logo} />
+                    {/* <p className="font-semibold">{item.name}</p> */}
                   </div>
                 ))}
               </div>

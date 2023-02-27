@@ -34,9 +34,7 @@ const Details = () => {
     getCity();
   }, [id]);
   const getDetails = async (id) => {
-    const { data: result } = await http().get(
-      "/movies/" + id
-    );
+    const { data: result } = await http().get("/movies/" + id);
     return setDetails(result.data[0]);
   };
   const getSchedule = async () => {
@@ -86,7 +84,7 @@ const Details = () => {
             <img
               alt="Movie"
               className="w-full h-auto rounded-[8px]"
-              src={`https://www.themoviedb.org/t/p/w220_and_h330_face${details.poster}`}
+              src={`${details.poster}`}
             />
           </div>
         </section>
@@ -177,7 +175,7 @@ const Details = () => {
                 <div className="header-card flex items-center gap-3">
                   <div className="w-1/3 flex">
                     <div className="w-[100%]">
-                      <img alt="w-[100%] h-auto" src={Ebu} />
+                      <img alt="w-[100%] h-auto" src={data.logo} />
                     </div>
                   </div>
                   <div>
@@ -218,12 +216,20 @@ const Details = () => {
                     {data.price}/seat
                   </span>
                 </div>
-                <button
-                  onClick={() => bookingActions()}
-                  className={`btn btn-md w-full py-[10px] my-[5px] bg-[#fca311] text-white text-center cursor-pointer rounded-[16px] hover:bg-orange-600`}
-                >
-                  Book now
-                </button>
+                {data.times.includes(selectedTime) ? (
+                  <button
+                    onClick={() => bookingActions()}
+                    className={`btn btn-md w-full py-[10px] my-[5px] bg-[#fca311] text-white text-center cursor-pointer rounded-[16px] hover:bg-orange-600`}
+                  >
+                    Book now
+                  </button>
+                ) : (
+                  <button
+                    className={`w-full py-[10px] my-[5px] bg-slate-400 text-white text-center cursor-pointer rounded-[16px]`}
+                  >
+                    Selected Time
+                  </button>
+                )}
               </div>
             ))}
           </div>

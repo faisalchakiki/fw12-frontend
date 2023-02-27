@@ -191,8 +191,8 @@ const Booking = () => {
               Order Info
             </h3>
             <div className="bg-white rounded-[5px] mb-[20px] py-[15px] px-[20px] text-center overflow-hidden">
-              <div className="h-[30px] mb-4 mx-auto inline-block">
-                <img alt="" src={Ebu} />
+              <div className="h-[30px] mb-1 mx-auto inline-block text-center">
+                <img alt="" src={infoBooking.logoCinema} className='mx-auto w-full h-[100%]'/>
               </div>
               <p className="w-full text-[#14142b] font-semibold tracking-[0.75px] text-[1.5vw] mb-[35px]">
                 {infoBooking?.nameCinema}

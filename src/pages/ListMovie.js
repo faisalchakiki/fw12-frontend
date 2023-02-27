@@ -17,7 +17,7 @@ const ListMovie = () => {
   const [count, setCountPage] = React.useState(1);
   const [page, setPage] = React.useState(1);
   const [search, setSearch] = React.useState("");
-  const [sort, setSort] = React.useState("DESC");
+  const [sort, setSort] = React.useState("ASC");
   // console.log(sort);
 
   React.useEffect(() => {
@@ -47,14 +47,14 @@ const ListMovie = () => {
               <select
                 name="sort"
                 className="w-full py-2 px-3 rounded-[20px] outline-0 mr-[20px] my-3 sm:my-0"
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
               >
                 <option class="option" value="" disabled selected hidden>
                   Sort
                 </option>
-                <option>
-                  <div onClick={(e) => console.log(e)}>A - Z</div>
-                </option>
-                <option><p onClick={(e) => console.log(e)}>Z - A</p></option>
+                <option value="ASC">A - Z</option>
+                <option value="DESC">Z - A</option>
               </select>
             </div>
             <input
@@ -74,7 +74,7 @@ const ListMovie = () => {
               <div className="w-full">
                 <img
                   className="w-full h-auto"
-                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face${data.poster}`}
+                  src={`${data.poster}`}
                   alt="movieIMG"
                 />
               </div>
