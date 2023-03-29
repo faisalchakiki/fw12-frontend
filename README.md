@@ -1,4 +1,27 @@
-# Getting Started with Create React App
+
+# Cinephile App
+* Apk to order the latest movie cinema tickets.
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Technologies](#technologies)
+- [Screenshoot App](#screenshoot-app)
+
+## Technologies
+
+-   [React Js](https://reactjs.org/)
+-   [Redux](https://redux-toolkit.js.org/)
+-   [Native Base](https://nativebase.io/)
+-   [Formik](https://formik.org/)
+
+## Screenshoot App
+
+![cinephile-web-1](https://user-images.githubusercontent.com/105357717/222617077-bd0df04a-707c-4b7c-af2a-78902a9303d1.png)
+
+![chinphile](https://user-images.githubusercontent.com/105357717/222617070-eb6e5f69-2c30-4254-bf26-4bf53fead35d.png)
+
+# Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
