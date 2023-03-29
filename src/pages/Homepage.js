@@ -61,7 +61,7 @@ const Homepage = () => {
           <img className="w-[85%] h-auto" src={ImageHeader} alt="exampleIMG" />
         </div>
       </header>
-      <section className="bg-[#f5f6f8] h-[350px] md:h-[500px] block pt-3">
+      <section className="bg-[#5C5C5C] h-[350px] md:h-[500px] block pt-3">
         <header className="flex h-[10%] justify-between px-[50px] lg:px-[120px] items-center">
           <h3 className="text-[#fca311] text-[20px] md:text-[32px] pb-[5px] font-semibold">
             Now Showing
@@ -75,8 +75,8 @@ const Homepage = () => {
         <main className="flex items-start justify-start pl-[50px] pt-[80px] lg:pl-[120px] scrollbar overflow-x-auto">
           {movieNow?.data?.map((item) => (
             <div
-              className="box-movie max-w-[150px] md:max-w-[180px] min-h-min rounded-[8px] p-[15px] md:p-[30px] bg-[rgba(255, 255, 255, 0.2)] border-[3px] flex items-center justify-center flex-col border-[#fff] border-solid cursor-pointer
-              group hover:bg-white hover:relative hover:shadow-lg mr-[40px]"
+              className="box-movie max-w-[150px] md:max-w-[180px] min-h-min rounded-[8px] p-[15px] md:p-[30px] bg-[rgba(255, 255, 255, 0.2)] border-[3px] flex items-center justify-center flex-col border-orange-400 border-solid cursor-pointer
+              group hover:bg-[#1d212f] hover:relative hover:shadow-lg mr-[40px]"
             >
               <div>
                 <img
@@ -86,7 +86,7 @@ const Homepage = () => {
                 />
               </div>
               <div className="detail text-center hidden group-hover:block">
-                <div className="title text-[15px] md:text-[19px] font-semibold mt-[10px]">
+                <div className="title text-white text-[15px] md:text-[19px] font-semibold mt-[10px]">
                   {item.title}
                 </div>
                 <div className="genre text-[14px] md:text-[16px] text-[#a0a3bd] font-semibold mb-[25px]">
@@ -100,7 +100,7 @@ const Homepage = () => {
       </section>
       <section className="pt-3 flex flex-col h-auto ">
         <header className="flex justify-between px-[50px] lg:px-[120px] items-center">
-          <h3 className="text-[#000] text-[20px] md:text-[32px] pb-[5px] font-semibold">
+          <h3 className="text-[20px] md:text-[32px] pb-[5px] font-semibold">
             Upcoming Movies
           </h3>
           <Link to="/listMovie">
@@ -112,7 +112,7 @@ const Homepage = () => {
         <Month />
         <main className="relative flex flex-1 justify-start items-start pl-[50px] lg:pl-[120px] overflow-x-auto scrollbar mt-[50px]">
           {upComing?.data?.map((data) => (
-            <div className="max-w-[150px] md:max-w-[180px] min-h-min p-[15px] md:p-[30px] bg-white border-[0.5px] border-[#dedede] rounded-[8px] flex items-center justify-center flex-col mr-[40px]">
+            <div className="max-w-[150px] md:max-w-[180px] min-h-min p-[15px] md:p-[30px] bg-[#5C5C5C] border-[0.5px] border-[#6e7191] rounded-[8px] flex items-center justify-center flex-col mr-[40px]">
               <div>
                 <img
                   className="max-w-[100px] md:max-w-[150px] h-auto"
@@ -121,7 +121,7 @@ const Homepage = () => {
                   loading="lazy"
                 />
               </div>
-              <div className="title text-[15px] md:text-[19px] font-semibold mt-[10px]">
+              <div className="title text-white text-center text-[15px] md:text-[19px] font-semibold mt-[10px]">
                 {data.title}
               </div>
               <div className="genre text-[14px] md:text-[16px] text-[#a0a3bd] font-semibold mb-[25px]">
@@ -142,13 +142,13 @@ const Homepage = () => {
             <form>
               <input
                 type="email"
-                className="w-[50%] lg:w-[250px] bg-[#fcfdfe] border-2 rounded divide-solid border-slate-300 py-[2px] text-[12px] md:text-[16px] md:py-[10px] pl-[1%] mt-[6px] mb-1 sm:mb-[8px] sm:mr-[15px]"
+                className="text-center w-[50%] lg:w-[250px] bg-[#fcfdfe] border-2 rounded divide-solid border-slate-300 py-[2px] text-[12px] md:text-[16px] md:py-[10px] pl-[1%] mt-[6px] mb-1 sm:mb-[8px] sm:mr-[15px]"
                 placeholder="Type your email"
                 required
               />
               <Button
                 value="join now"
-                class="w-[35%] sm:w-[100px] rounded py-[5px] md:py-[9px] text-[12px] md:text-[16px]"
+                class="w-[35%] sm:w-fit rounded-[15px] py-[5px] md:py-[9px] text-[12px] md:text-[16px]"
               />
             </form>
           </div>

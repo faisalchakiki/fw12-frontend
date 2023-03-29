@@ -77,7 +77,7 @@ const Details = () => {
       {token ? <NavUser></NavUser> : <Navbar />}
       <main
         key={details.id}
-        className="flex flex-col md:flex-row pl-[50px] lg:pl-[120px] pr-[20px] overflow-hidden py-[50px] align-center"
+        className="flex flex-col md:flex-row pl-[50px] lg:pl-[120px] pr-[20px] overflow-hidden py-[50px] align-center bg-[#5C5C5C]"
       >
         <section className="left w-full md:w-2/5 flex align-center justify-center">
           <div className="w-[50%] md:w-[250px] h-min rounded-[16px] border p-[20px] box-content mr-[50px]">
@@ -85,41 +85,50 @@ const Details = () => {
               alt="Movie"
               className="w-full h-auto rounded-[8px]"
               src={`${details.poster}`}
+              loading="lazy"
             />
           </div>
         </section>
         <section className="right md:w-3/5 mt-[30px] md:mt-0">
-          <h1 className="title text-[32px] text-[#14142b] mb-[10px]">
+          <h1 className="title text-white text-[32px] mb-[10px]">
             {details.title}
           </h1>
-          <p className="genre text-[18px] text-[#4e4b66] mb-[40px] tracking-[0.75px]">
+          <p className="genre text-[18px] text-white mb-[40px] tracking-[0.75px]">
             {details.genre}
           </p>
           <div>
             <div className="part grid grid-cols-none sm:grid-cols-2 mb-[25px]">
               <div className="mb-2 sm:mb-0">
-                <p className="text-[#8692a6] text-[14px]">Release date</p>
-                <span className="truncate text-[#121212] text-[18px]">
+                <p className="text-[#1d212f] font-semibold text-[14px]">
+                  Release date
+                </p>
+                <span className="truncate text-white text-[18px]">
                   {details.dateRelease?.slice(0, 10)}
                 </span>
               </div>
               <div className="mb-2 sm:mb-0">
-                <p className="text-[#8692a6] text-[14px]">Directed By</p>
-                <span className="truncate text-[#121212] text-[18px]">
+                <p className="text-[#1d212f] font-semibold text-[14px]">
+                  Directed By
+                </p>
+                <span className="truncate text-white text-[18px]">
                   {details.director}
                 </span>
               </div>
             </div>
             <div className="part grid grid-cols-none sm:grid-cols-2 mb-[25px]">
               <div className="mb-2 sm:mb-0">
-                <p className="text-[#8692a6] text-[14px]">Duration</p>
-                <span className="truncate text-[#121212] text-[18px]">
+                <p className="text-[#1d212f] font-semibold text-[14px]">
+                  Duration
+                </p>
+                <span className="truncate text-white text-[18px]">
                   {details.duration} minute
                 </span>
               </div>
               <div className="mb-2 sm:mb-0">
-                <p className="text-[#8692a6] text-[14px]">Casts</p>
-                <span className="text-clip overflow-hidden ">
+                <p className="text-[#1d212f] font-semibold text-[14px]">
+                  Casts
+                </p>
+                <span className="text-white overflow-hidden ">
                   {details.casts}
                 </span>
               </div>
@@ -127,15 +136,17 @@ const Details = () => {
           </div>
           <hr />
           <div>
-            <p className="text-[23px] my-[10px]">Synopsis</p>
-            <span className="text-clip overflow-hidden w-[20px] text-[#4e4b66] leading-8">
+            <p className="text-[23px] text-[#1d212f] font-semibold my-[10px]">
+              Synopsis
+            </p>
+            <span className="text-clip overflow-hidden w-[20px] text-white leading-8">
               {details.synopsis}
             </span>
           </div>
         </section>
       </main>
       {token ? (
-        <section className="px-[120px] bg-[#f5f6f8] py-[30px] text-center">
+        <section className="px-[120px] bg-[#5C5C5C] py-[30px] text-center">
           <h3 className="text-[#14142b] text-[32px]">Showtimes and Ticket</h3>
           <div className="flex justify-center gap-5 mt-[20px]">
             <div className="bg-[#eff0f6] py-[14px] px-2 rounded-[5px] text-[#000] cursor-pointer">
@@ -148,7 +159,7 @@ const Details = () => {
                 className="outline-none bg-[#eff0f6] cursor-pointer"
               />
             </div>
-            <div className="bg-[#eff0f6] py-[14px] relative pl-[40px] pr-3 cursor-pointer">
+            <div className="bg-[#eff0f6] py-[14px] relative pl-[40px] pr-3 cursor-pointer rounded-[5px]">
               <img
                 src={Location}
                 alt="logo-location"
@@ -171,7 +182,7 @@ const Details = () => {
           </div>
           <div className="grid grid-cols-3 justify-center gap-[30px] my-[25px] px-[5%]">
             {schedule?.map((data) => (
-              <div className="card p-[25px] border rounded-[8px] bg-white text-start overflow-hidden">
+              <div className="card p-[25px] border border-[#5C5C5C] rounded-[8px] bg-[#1d212f] text-start overflow-hidden">
                 <div className="header-card flex items-center gap-3">
                   <div className="w-1/3 flex">
                     <div className="w-[100%]">
@@ -185,7 +196,7 @@ const Details = () => {
                     </p>
                   </div>
                 </div>
-                <hr className="mx-[-30px] my-[20px]" />
+                <hr className="mx-[-30px] my-[20px]"/>
                 <div className="time">
                   {data?.times?.map((item) => {
                     const timeReplace = item.replace(":", "").replace(":", "");
@@ -200,8 +211,8 @@ const Details = () => {
                             setNameCinema(data.name);
                             setPrice(data.price);
                           }}
-                          className={`w-[33%] text-center text-[15px] text-[#4e4b66] inline-block rounded-[8px] cursor-pointer ${
-                            selectedTime === item && "bg-[#eaea] border"
+                          className={`w-[33%] text-center text-[15px] inline-block rounded-[8px] cursor-pointer ${
+                            selectedTime === item && "bg-[#eaea] border border-[#5C5C5C] text-white"
                           }`}
                         >
                           {item}
@@ -211,8 +222,8 @@ const Details = () => {
                   })}
                 </div>
                 <div className="price flex justify-between items-center my-[20px]">
-                  <p className="text-[18px] text-[#6b6b6b]">Price</p>
-                  <span className="text-[#000] text-[18px] font-semibold">
+                  <p className="text-[18px] font-semibold">Price</p>
+                  <span className="text-white text-[18px] font-semibold">
                     {data.price}/seat
                   </span>
                 </div>

@@ -7,6 +7,7 @@ import Hiflix from "../asset/logo/hiflix.svg";
 import Facebook from "../asset/logo/facebook.svg";
 import Instagram from "../asset/logo/instagram.svg";
 import Twiter from "../asset/logo/twiter.svg";
+import Cinephile from "../asset/logo/logo-cinephile.svg";
 import Youtube from "../asset/logo/youtube.svg";
 
 const Footer = () => {
@@ -14,9 +15,7 @@ const Footer = () => {
     <footer className="px-[50px] lg:px-[120px] pt-3 border-t-2">
       <div className="top lg:flex justify-between">
         <div className="mb-4">
-          <h1 className="text-[40px] text-black font-semibold italic mb-[20px]">
-            <span className="text-[#fca311]">CINE</span>PHILE
-          </h1>
+        <img alt="" src={Cinephile} className="w-[50%] ml-[-10px]" />
           <p className="text-[#6e7191] text-[17px]">
             Stop waiting in line. Buy tickets
             <br />

@@ -43,7 +43,7 @@ const History = () => {
   return (
     <>
       <NavUser></NavUser>
-      <main className="flex gap-5 px-[120px] py-[50px] bg-[#f5f6f8] items-start">
+      <main className="flex gap-5 px-[120px] py-[50px] bg-[#5C5C5C] items-start">
         <section className="bg-white rounded-[24px] w-[25%] p-[20px]">
           <p className="">INFO</p>
           <div className="w-[60%] h-auto border-[2px] border-black my-[20px] mx-auto rounded-full overflow-hidden">

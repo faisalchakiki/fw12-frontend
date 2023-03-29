@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&family=Mulish&display=swap");
 body {
   margin: 0;
-  font-family:"Mulish";
+  font-family: "Mulish";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #14213d;
-  color:#ffffff; */
+  background-color: #1d212f;
+  color: #6e7191;
 }
 
 code {
@@ -13,7 +13,7 @@ code {
     monospace;
 }
 
-.container{
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,6 +41,6 @@ code {
   background-color: aquamarine;
 }
 
-.scrollbar::-webkit-scrollbar{
+.scrollbar::-webkit-scrollbar {
   display: none;
 }

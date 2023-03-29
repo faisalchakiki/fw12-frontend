@@ -25,7 +25,6 @@ const Payment = () => {
     getProfile();
     getPaymentMethod();
   }, [setSelected]);
-
   const getProfile = async () => {
     const { data: result } = await http(token).get("/profile");
     setProfile(result.data[0]);
@@ -39,6 +38,7 @@ const Payment = () => {
     }
   };
   let total = 0;
+  const fullName = profile.firstName + " " + profile.lastName;
   if (infoBooking.seatSelected) {
     if (infoBooking.seatSelected.length) {
       total = Number(infoBooking.price) * infoBooking.seatSelected.length;
@@ -76,50 +76,50 @@ const Payment = () => {
   return (
     <>
       <NavUser></NavUser>
-      <main className="px-[120px] bg-[#f5f6f8] py-[30px] flex gap-5">
+      <main className="px-[120px] bg-[#5C5C5C] py-[30px] flex gap-5">
         <section className="w-2/3">
           <div>
             <h3 className="font-bold text-[24px] text-[#14142b] mb-[20px]">
               Payment Info
             </h3>
-            <div className="bg-white rounded-[5px] mb-[20px] py-[20px] px-4">
+            <div className="bg-slate-200 rounded-[5px] mb-[20px] py-[20px] px-4">
               <div className="flex justify-between items-center py-[15px]">
-                <p className="text-[16px] text-[#6b6b6b]">Date & time</p>
+                <p className="text-[16px] font-semibold">Date & time</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
                   {infoBooking?.dateBooking} & {infoBooking?.timeBooking}
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
-                <p className="text-[16px] text-[#6b6b6b]">Movie title</p>
+                <p className="text-[16px] font-semibold">Movie title</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
                   {infoBooking.nameMovie}
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
-                <p className="text-[16px] text-[#6b6b6b]">Cinema name</p>
+                <p className="text-[16px] font-semibold">Cinema name</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
                   {infoBooking.nameCinema}
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
-                <p className="text-[16px] text-[#6b6b6b]">Number of tickets</p>
+                <p className="text-[16px] font-semibold">Number of tickets</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
                   {infoBooking.seatSelected.length} pieces
                 </span>
               </div>
               <hr />
               <div className="flex justify-between items-center py-[15px]">
-                <p className="text-[16px] text-[#6b6b6b]">Price one ticket</p>
+                <p className="text-[16px] font-semibold">Price one ticket</p>
                 <span className="text-[16px] text-[#14142b] font-semibold">
                   Rp.{infoBooking?.price}
                 </span>
               </div>
             </div>
-            <div className="bg-white rounded-[5px] mb-[20px] flex justify-between items-center py-[20px] px-4">
-              <p className="text-[30px]">Total Payment</p>
+            <div className="bg-slate-200 rounded-[5px] mb-[20px] flex justify-between items-center py-[20px] px-4">
+              <p className="text-[30px] font-['Opens-Sans']">Total Payment</p>
               <span className="text-[20px] text-[#14142b] font-semibold">
                 Rp.{total}
               </span>
@@ -129,7 +129,7 @@ const Payment = () => {
             <h3 className="font-bold text-[24px] text-[#14142b] mb-[20px]">
               Choose a Payment Method
             </h3>
-            <div className="bg-white rounded-[5px] mb-[20px] py-[20px] px-4">
+            <div className="bg-slate-200 rounded-[5px] mb-[20px] py-[20px] px-4">
               <div className="method grid grid-cols-4 w-full gap-[30px]">
                 {payment?.map((item) => (
                   <div
@@ -160,7 +160,7 @@ const Payment = () => {
               </Link>
               {selected !== 0 ? (
                 <Button
-                  submit={()=>transactionProses()}
+                  submit={() => transactionProses()}
                   value="Pay your order"
                   class="rounded-[5px] w-[40%]"
                 ></Button>
@@ -177,43 +177,47 @@ const Payment = () => {
             <h3 className="font-bold text-[24px] text-[#14142b] mb-[20px]">
               Personal Info
             </h3>
-            <div className="bg-white rounded-[5px] mb-[20px] py-[20px] px-4">
-              <form>
-                <Input
-                  label="Full Name"
-                  type="text"
-                  id="fullname"
-                  value={`${profile?.firstName ? profile.firstName : "-"} ${profile?.lastName ? profile.lastName : ""}`}
-                  className="rounded-[5px]"
-                />
-                <Input
-                  label="Email"
-                  type="email"
-                  id="email"
-                  value={profile.email}
-                  className="rounded-[5px]"
-                />
-                <div className="input-part text-[16px] text-[#4e4b66]">
-                  <label for="phonenumber">Phone Number</label>
-                  <div className="relative">
-                    <div className="absolute pr-[10px] border-r-2 border-[#eaeaea] top-[25%] left-2">
-                      <p className="text-[17px] text-black">+62</p>
+            <div className="bg-slate-200 rounded-[5px] mb-[20px] py-[20px] px-4">
+              {profile ? (
+                <form>
+                  <Input
+                    label="Full Name"
+                    type="text"
+                    id="fullname"
+                    value={fullName}
+                    className="rounded-[5px]"
+                  />
+                  <Input
+                    label="Email"
+                    type="email"
+                    id="email"
+                    value={profile.email}
+                    className="rounded-[5px]"
+                  />
+                  <div className="input-part text-[16px] text-[#4e4b66]">
+                    <label for="phonenumber">Phone Number</label>
+                    <div className="relative">
+                      <div className="absolute pr-[10px] border-r-2 border-[#eaeaea] top-[25%] left-2">
+                        <p className="text-[17px] text-black">+62</p>
+                      </div>
+                      <input
+                        type="text"
+                        id="phonenumber"
+                        placeholder={`Write your Phone Number`}
+                        value={profile.phoneNumber}
+                        className={`w-full bg-[#fcfdfe] border rounded-[5px] divide-solid border-slate-300 py-[10px] pl-[60px] mt-[6px] mb-[8px]`}
+                        required
+                      />
                     </div>
-                    <input
-                      type="text"
-                      id="phonenumber"
-                      placeholder={`Write your Phone Number`}
-                      value={profile.phoneNumber}
-                      className={`w-full bg-[#fcfdfe] border rounded-[5px] divide-solid border-slate-300 py-[10px] pl-[60px] mt-[6px] mb-[8px]`}
-                      required
-                    />
                   </div>
-                </div>
-                <div className="bg-orange-200 rounded-[4px] w-full flex py-[8px] px-[24px] items-center mt-[10px]">
-                  <img alt="" src={Warning} className="pr-5" />
-                  <p>Change the data in the profile.</p>
-                </div>
-              </form>
+                  <div className="bg-orange-200 rounded-[4px] w-full flex py-[8px] px-[24px] items-center mt-[10px]">
+                    <img alt="" src={Warning} className="pr-5" />
+                    <p>Change the data in the profile.</p>
+                  </div>
+                </form>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </section>

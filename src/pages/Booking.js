@@ -44,14 +44,14 @@ const Booking = () => {
   return (
     <>
       <NavUser />
-      <main className="px-[120px] bg-[#f5f6f8] py-[30px] flex gap-5">
+      <main className="px-[120px] bg-[#5C5C5C] py-[30px] flex gap-5">
         <section className="w-2/3">
           <div>
             <h3 className="font-bold text-[24px] text-[#14142b] mb-[20px]">
               Movie Selected
             </h3>
-            <div className="bg-white rounded-[5px] mb-[20px] py-[15px] px-4 flex justify-between items-center">
-              <h1 className="text-[2vw] font-semibold">{details?.title}</h1>
+            <div className="bg-slate-200 rounded-[5px] mb-[20px] py-[15px] px-4 flex justify-between items-center">
+              <h1 className="text-[2vw] font-semibold font-['Opens-Sans']">{details?.title}</h1>
               <Link to="/listMovie" className="w-[30%]">
                 <button className="w-full bg-[#eff0f7] text-[#fca311] h-[35px] font-bold text-center cursor-pointer rounded-[4px] hover:bg-[#fca311] hover:text-white">
                   Change movie
@@ -63,10 +63,10 @@ const Booking = () => {
             <h3 className="font-bold text-[24px] text-[#14142b] mb-[20px]">
               Choose Your Seat
             </h3>
-            <div className="bg-white py-[30px] px-4 flex justify-center">
+            <div className="bg-slate-200 py-[30px] px-4 flex justify-center rounded-[5px]">
               <main className="w-[70%] text-center">
                 <p>Screen</p>
-                <hr className="h-[5px] bg-[#eaeaea] rounded-[15px] mb-[20px]" />
+                <hr className="h-[5px] bg-[#4e4b66] rounded-[15px] mb-[20px]" />
                 <div className="text-center mx-auto flex flex-col justify-center items-center">
                   {["A", "B", "C", "D", "E", "F", "G", " "].map((value) => {
                     return (
@@ -190,7 +190,7 @@ const Booking = () => {
             <h3 className="font-bold text-[24px] text-[#14142b] mb-[20px]">
               Order Info
             </h3>
-            <div className="bg-white rounded-[5px] mb-[20px] py-[15px] px-[20px] text-center overflow-hidden">
+            <div className="bg-slate-200 rounded-[5px] mb-[20px] py-[15px] px-[20px] text-center overflow-hidden">
               <div className="h-[30px] mb-1 mx-auto inline-block text-center">
                 <img alt="" src={infoBooking.logoCinema} className='mx-auto w-full h-[100%]'/>
               </div>
